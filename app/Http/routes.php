@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('home', 'UserController@getDashboard');
+Route::get('admin/kupon/buat', 'KuponController@create');
+Route::post('kupon/subscribe', 'KuponController@subscribe');
+
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');

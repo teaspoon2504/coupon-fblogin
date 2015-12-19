@@ -24,7 +24,7 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    private $redirectTo = '/';
+    private $redirectTo = '/home';
     /**
      * Create a new authentication controller instance.
      *
@@ -72,12 +72,24 @@ class AuthController extends Controller
      
     public function handleProviderCallback(){
         $user = Socialite::driver('facebook')->user();
- 
-   echo $user->getId().'<br />'.
-        $user->getNickname().'<br />'.
-        $user->getName().'<br />'.
-        $user->getAvatar().'<br />'.
-        $user->getEmail();
+        $userSudahAda = \App\User::Where('idsocial', $user->getId())-> first();
+        if ($userSudahAda){
+            \Auth::login($userSudahAda);
+        }else{
+            $newUser = new \App\User();
+            $newUser->idsocial = $user->getId();
+            $newUser->name = $user->getName();
+            $newUser->profile_picture = $user->getAvatar();
+            $newUser->email = $user->getEmail();
+            $newUser->save();
+            \Auth::login($newUser);
+        }
+            return redirect('home');
+    }
+
+    public function authenticated(Request $request, \App\User $user){
+        //bikin check tanggal subscribtion
+        return redirect()->intended($this->redirectPath());
     }
 
 }

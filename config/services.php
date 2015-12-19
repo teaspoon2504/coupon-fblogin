@@ -38,7 +38,7 @@ return [
     'facebook' => [
         'client_id' => '928658167202495',
         'client_secret' => '1464c2296dde7e31982eb35fc2d267be',
-        'redirect' => 'http://localhost/1terraversity/public/auth/facebook/callback',
+        'redirect' => 'http://localhost:8000/auth/facebook/callback',
     ],
 
 ];
